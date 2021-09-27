@@ -1,0 +1,15 @@
+{
+  "name": "supplychain-rx",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "truffle": "^5.4.12",
+    "web3": "^1.5.3"
+  }
+}
