@@ -1,9 +1,10 @@
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
 contract Ownable {
     address payable owner;
 
-    constructor() public {
+    constructor() {
         owner = payable(address(msg.sender));
     }
 
@@ -43,8 +44,9 @@ contract PayContract {
 }
 
 contract SupplyChain is Ownable {
-    enum SupplyChainState{Created, Paid, Delivered}
     event SupplyChainStep(uint index, SupplyChainState step, address payableAddress);
+
+    enum SupplyChainState{Created, Paid, Delivered}
 
     struct Item {
         string identifier;
