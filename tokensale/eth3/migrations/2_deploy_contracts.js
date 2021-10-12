@@ -1,7 +1,13 @@
 const TrentToken = artifacts.require("./TrentToken.sol");
 const TrentTokenSale = artifacts.require("./TrentTokenSale.sol");
 
-module.exports = function(deployer) {
-  deployer.deploy(TrentToken, 1000000);
-  // deployer.deploy(TrentTokenSale, 1000000);
+module.exports = async (deployer) => {
+  const [first, ...rest] = await web3.eth.getAccounts();
+
+  const initialAmount = 1000000;
+  await deployer.deploy(TrentToken, initialAmount);
+  await deployer.deploy(TrentTokenSale, 1, first, TrentToken.address);
+
+  let instance = await TrentToken.deployed();
+  await instance.transfer(TrentTokenSale.address, initialAmount);
 };
