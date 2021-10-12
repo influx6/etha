@@ -1,21 +1,14 @@
+require("dotenv").config({path: "../.env"});
+
 const TrentToken = artifacts.require("TrentToken");
-
-var chai = require("chai");
-
+const chai = require("./setupchai");
 const BN = web3.utils.BN;
-const chaiBN = require("chai-bn")(BN);
-chai.use(chaiBN);
-
-const chaiPromises = require("chai-as-promised");
-chai.use(chaiPromises);
-
-
 const expect = chai.expect;
 
 contract("TrentTokenTest", async (accounts) => {
-    const [deployerAccount, recipientAccount, thirdAccount] = accounts;
+    const [deployerAccount, recipientAccount] = accounts;
 
-    const createSupply = 100000;
+    const createSupply = process.env.INITIAL_TOKENS;
     beforeEach(async () => {
         this.newToken = await TrentToken.new(createSupply);
     })
