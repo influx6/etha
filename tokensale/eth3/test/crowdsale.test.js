@@ -3,8 +3,14 @@ require("dotenv").config({path: "../.env"});
 const chai = require("./setupchai");
 const {Tokenizer} = require("truffle/build/573.bundled");
 
-const TrentTokenSale = artifacts.require("TrentTokenSale");
-const TrentToken = artifacts.require("TrentToken");
+const TrentTokenSale = artifacts.require("TrentTokenSale.sol");
+const TrentToken = artifacts.require("TrentToken.sol");
+const KycContract = artifacts.require("KycContract.sol");
+
+TrentToken.defaults({gasPrice: 0});
+KycContract.defaults({gasPrice: 0});
+TrentTokenSale.defaults({gasPrice: 0});
+
 const BN = web3.utils.BN;
 const expect = chai.expect;
 
@@ -12,11 +18,6 @@ contract("TrentTokenSaleTest", async (accounts) => {
     const [deployerAccount, recipientAccount, thirdAccount] = accounts;
 
     const createSupply = process.env.INITIAL_TOKENS;
-    // beforeEach(async () => {
-    //     this.newToken = await TrentToken.new(createSupply);
-    //     this.newTokenSale = await TrentTokenSale.new(1, deployerAccount, TrentToken.address);
-    //     this.newToken.transfer(this.newTokenSale.address, createSupply);
-    // })
 
     it("should be able to get all tokens", async () => {
         let instance = await TrentToken.deployed();
@@ -33,9 +34,15 @@ contract("TrentTokenSaleTest", async (accounts) => {
 
     it("should be able to buy tokens", async () => {
         let instance = await TrentToken.deployed();
+        let kycInstance = await KycContract.deployed();
         let saleInstance = await TrentTokenSale.deployed();
 
         let balanceBefore = await instance.balanceOf(deployerAccount);
+
+        // accept deployer into kyc
+        await kycInstance.setKycCompleted(deployerAccount, {
+            from: deployerAccount,
+        });
 
         await saleInstance.sendTransaction({
             from: deployerAccount,

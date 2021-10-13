@@ -9,14 +9,12 @@ module.exports = {
       port: 7545,
       host: "localhost",
       network_id: 5777,
-    },
-    develop: {
-      port: 8545
+      gas: 3500000,
     },
   },
   compilers: {
     solc: {
       version: "0.6.1",
-    }
+    },
   }
 };
