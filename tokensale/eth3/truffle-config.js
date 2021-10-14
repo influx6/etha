@@ -32,6 +32,12 @@ module.exports = {
       host: "localhost",
       network_id: "*" // Match any network id
     },
+    infura_gorli: {
+      network_id: 5,
+      provider: () => {
+        return new HDWalletProvider(Mnemonic, "https://goerli.infura.io/v3/1f7fc818f84a44c0809dc88c49b035e0", AccountIndex);
+      },
+    }
   },
   compilers: {
     solc: {
