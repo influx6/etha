@@ -97,7 +97,7 @@
                       "name": "msg",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 871,
+                      "referencedDeclaration": 1713,
                       "src": "822:3:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_magic_message",
@@ -193,7 +193,7 @@
                     "name": "this",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 885,
+                    "referencedDeclaration": 1727,
                     "src": "920:4:0",
                     "typeDescriptions": {
                       "typeIdentifier": "t_contract$_Context_$26",
@@ -213,7 +213,7 @@
                       "name": "msg",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 871,
+                      "referencedDeclaration": 1713,
                       "src": "1060:3:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_magic_message",
@@ -487,7 +487,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 871,
+                              "referencedDeclaration": 1713,
                               "type": "msg",
                               "value": "msg"
                             },
@@ -587,7 +587,7 @@
                           "overloadedDeclarations": [
                             null
                           ],
-                          "referencedDeclaration": 885,
+                          "referencedDeclaration": 1727,
                           "type": "contract Context",
                           "value": "this"
                         },
@@ -623,7 +623,7 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 871,
+                              "referencedDeclaration": 1713,
                               "type": "msg",
                               "value": "msg"
                             },
@@ -667,7 +667,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-10-10T16:58:19.860Z",
+  "updatedAt": "2021-10-13T15:17:14.748Z",
   "devdoc": {
     "methods": {}
   },

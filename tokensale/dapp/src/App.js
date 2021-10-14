@@ -1,6 +1,7 @@
 import React, {Component} from "react";
-import SupplyChainContract from "./contracts/SupplyChain.json";
-import PayContract from "./contracts/PayContract.json";
+import TrentToken from "./contracts/TrentToken.json";
+import KycContract from "./contracts/KycContract.json";
+import TrentTokenSale from "./contracts/TrentTokenSale.json";
 import getWeb3 from "./getWeb3";
 
 import "./App.css";
@@ -11,11 +12,10 @@ class App extends Component {
         web3: null,
         accounts: null,
         networkId: null,
-        supplyChainContract: null,
-        supplyChainContractCreator: null,
-        payContract: null,
-        payContractCreator: null,
-        data: {cost: 0.0, identifier: null},
+        kycInstance: null,
+        tokenInstance: null,
+        tokenSaleInstance: null,
+        data: { kycAddress: null, },
     };
 
     componentDidMount = async () => {
@@ -30,27 +30,36 @@ class App extends Component {
             // 1. get current network id which tells us which network is currently used.
             const networkId = await web3.eth.net.getId();
 
-
-
-            const createPayContractCreator = () => {
+            const createKycContractCreator = () => {
                 // 2. current smart contract address for current networkId.
-                const payContractDeployedNetwork = PayContract.networks[networkId];
-                console.log("Creating user with networkId: ", networkId, payContractDeployedNetwork);
+                const network = KycContract.networks[networkId];
+                console.log("Creating user with networkId: ", networkId, network);
                 // 3. create an instance of the contract.
                 return new web3.eth.Contract(
-                    PayContract.abi,
-                    payContractDeployedNetwork && payContractDeployedNetwork.address,
+                    KycContract.abi,
+                    network && network.address,
                 );
             }
 
-            const createSupplyChainInstance = () => {
+            const createTrentTokenSaleInstance = () => {
                 // 2. current smart contract address for current networkId.
-                const supplyChainDeployedNetwork = SupplyChainContract.networks[networkId];
-                console.log("Creating user with networkId: ", networkId, supplyChainDeployedNetwork);
+                const network = TrentTokenSale.networks[networkId];
+                console.log("Creating user with networkId: ", networkId, network);
                 // 3. create an instance of the contract.
                 return new web3.eth.Contract(
-                    SupplyChainContract.abi,
-                    supplyChainDeployedNetwork && supplyChainDeployedNetwork.address,
+                    TrentTokenSale.abi,
+                    network && network.address,
+                );
+            }
+
+            const createTrentTokenInstance = () => {
+                // 2. current smart contract address for current networkId.
+                const network = TrentToken.networks[networkId];
+                console.log("Creating user with networkId: ", networkId, network);
+                // 3. create an instance of the contract.
+                return new web3.eth.Contract(
+                    TrentToken.abi,
+                    network && network.address,
                 );
             }
 
@@ -60,9 +69,9 @@ class App extends Component {
                 web3,
                 accounts,
                 networkId,
-                supplyChainContract: createSupplyChainInstance(),
-                supplyChainContractCreator: createSupplyChainInstance,
-                payContractCreator: createPayContractCreator,
+                kycInstance: createKycContractCreator(),
+                tokenInstance: createTrentTokenInstance(),
+                tokenSaleInstance: createTrentTokenSaleInstance(),
             }, this.listenToPaymentEvent);
         } catch (error) {
             // Catch any errors for any of the above operations.
@@ -73,19 +82,17 @@ class App extends Component {
         }
     };
 
-    handleSubmit = async () => {
-        const {data, supplyChainContract, accounts} = this.state;
-        const {cost, identifier} = data;
-        console.log(`Will create payable item in contract with cost: ${cost} and ${identifier}`)
-        const result = await supplyChainContract.methods.createItem(identifier, cost).send({from: accounts[0]});
-        console.log("Result of contract operation: ", result);
-    }
 
     listenToPaymentEvent = () => {
-        const { supplyChainContract } = this.state;
-        supplyChainContract.events.SupplyChainStep().on("data", async (event) => {
-           console.log("Received new event: ", event);
-        });
+    }
+
+    handleSubmitForKyc = async () => {
+        const { data, kycInstance, accounts } = this.state;
+        const [ firstAccount ] = accounts;
+        const { kycAddress } = data;
+
+        const transactionResponse = await kycInstance.methods.kycCompleted(kycAddress).send({from: firstAccount });
+        console.log("Transaction: ", transactionResponse);
     }
 
     render() {
@@ -96,15 +103,16 @@ class App extends Component {
 
         return (
             <div className="App">
-                <h1>SupplyChain Example!</h1>
+                <h1>TrentLoft Token Sale!</h1>
+                <h2>KYC Whitelisting</h2>
 
-                <h2>Items</h2>
+                <p>Get your tokens today!</p>
 
                 <div>
-                    <h2>Add Items</h2>
+                    <h2>Get Whitelisted</h2>
                     <p>
-                        <label>Const in Wei: </label>
-                        <input type="text" name="cost" value={data.cost} onChange={(event) => {
+                        <label>Address: </label>
+                        <input type="text" name="kycAddress" value={data.kycAddress || ""} onChange={(event) => {
                             const name = event.target.name;
                             const value = event.target.value;
                             const newData = {...data};
@@ -113,17 +121,7 @@ class App extends Component {
                         }}/>
                     </p>
                     <p>
-                        <label>Identifier: </label>
-                        <input type="text" name="identifier" value={data.identifier || ""} onChange={(event) => {
-                            const name = event.target.name;
-                            const value = event.target.value;
-                            const newData = {...data};
-                            newData[name] = value;
-                            this.setState({data: newData});
-                        }}/>
-                    </p>
-                    <p>
-                        <button type="button" onClick={this.handleSubmit}>Create New Payable</button>
+                        <button type="button" onClick={this.handleSubmitForKyc}>Add new whitelisted Address</button>
                     </p>
                 </div>
 
