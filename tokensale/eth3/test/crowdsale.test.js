@@ -1,7 +1,6 @@
 require("dotenv").config({path: "../.env"});
 
 const chai = require("./setupchai");
-const {Tokenizer} = require("truffle/build/573.bundled");
 
 const TrentTokenSale = artifacts.require("TrentTokenSale.sol");
 const TrentToken = artifacts.require("TrentToken.sol");
