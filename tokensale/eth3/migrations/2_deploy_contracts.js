@@ -1,4 +1,3 @@
-const {env} = require("truffle/build/987.bundled");
 const TrentToken = artifacts.require("./TrentToken.sol");
 const KycContract = artifacts.require("./KycContract.sol");
 const TrentTokenSale = artifacts.require("./TrentTokenSale.sol");

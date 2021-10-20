@@ -15,6 +15,6 @@ contract("DappToken Specs", async (accounts) => {
     });
 
     it("should be able to get deployed DappTokken", async () => {
-        expect(dappTokenInstance).to.not.be.null();
+        expect(dappTokenInstance).to.not.be.null;
     });
 });
