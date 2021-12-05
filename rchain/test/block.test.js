@@ -1,5 +1,8 @@
 import Block from "../src/chain/block.js";
+import config from "../src/config.js";
 import expect from "expect";
+
+config.difficulty = 2;
 
 describe("Block spec", () => {
 	let genesis;

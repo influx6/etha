@@ -1,5 +1,8 @@
 import Blockchain from "../src/chain/blockchain.js";
+import config from "../src/config.js";
 import expect from "expect";
+
+config.difficulty = 2;
 
 describe("Block spec", () => {
 	let blockchain, blockchain2;
