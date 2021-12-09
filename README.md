@@ -6,7 +6,6 @@ Contains all excercises done during the learning of the following courses:
 1. https://www.udemy.com/course/build-blockchain/
 1. https://www.udemy.com/course/ethereum-dapp/
 1. https://www.udemy.com/course/blockchain-complete-hyperledger-fabric-development-bootcamp
-1. https://www.udemy.com/course/hyperledger/
 1. https://www.udemy.com/course/build-blockchain/
 
 Ensure to create a `.env` in the tokensale project containing:
